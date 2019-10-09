@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using EntityFrameworkProject.Entities;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EntityFrameworkProject
@@ -20,8 +20,9 @@ namespace EntityFrameworkProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationContext>
-                (opts => opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
+            services.AddDbContext<ApplicationContext>(opts =>
+                    opts.UseSqlServer(Configuration.GetConnectionString("sqlConnection"),
+                    options => options.MigrationsAssembly("EntityFrameworkProject")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
